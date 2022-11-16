@@ -8,12 +8,13 @@ import { register } from "../Redux/Actions/UserActions";
 
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const location = useLocation();
   const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 

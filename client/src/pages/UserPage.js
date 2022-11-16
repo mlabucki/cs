@@ -1,5 +1,5 @@
-// Every user has its personal page where they can mange list of collections (create new, delete, or edit) — each collection in the list is a link to the collection page that contains table of items with sorting/filtering and capabilities to create new item, edit or delete existing item).
-import { useEffect , useState} from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { Col, Container, Row, Card, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,38 +16,41 @@ const UserPage = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { error: detailsError, loading: detailsLoading } = userDetails;
-
   const orderListMy = useSelector((state) => state.orderListMy);
   const { error: myListError, loading: myListLoading, orders } = orderListMy;
 
+  const userDetails = useSelector((state) => state.userDetails);
+  const { error: detailsError, loading: detailsLoading } = userDetails;
+
   // const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   // const {loading: updatedLoading } = userUpdateProfile;
+  
   const updateFormHandler = () => {
-    setUpdateForm(prev => setUpdateForm(!prev))
-  }
+    setUpdateForm((prev) => setUpdateForm(!prev));
+  };
 
   useEffect(() => {
-    dispatch(getUserDetails("profile"));
     dispatch(getListMyOrders());
+    dispatch(getUserDetails("profile"));
   }, [dispatch]);
 
   return (
     <Container>
       <Row>
         <Col>
-          
-
           <Card>
-          <Button onClick={updateFormHandler}>Update Profile</Button>
+            {updateForm === false ? (
+              <Button onClick={updateFormHandler}>Update Profile</Button>
+            ) : (
+              <Button onClick={updateFormHandler}>
+                Collapse a Update Form
+              </Button>
+            )}
             {detailsError && (
               <Error variant={"alert-danger"}>{detailsError}</Error>
             )}
             {detailsLoading && <Spiner />}
-            {updateForm && (
-            <UserProfileUpdate />
-            )}
+            {updateForm && <UserProfileUpdate />}
           </Card>
         </Col>
       </Row>
@@ -55,7 +58,7 @@ const UserPage = () => {
         <Col>
           <Card>
             <Card.Body>
-              <Card.Title>The {userInfo.name}'s Collection List</Card.Title>
+              <Card.Title> {userInfo.name}'s Collection List</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -64,7 +67,6 @@ const UserPage = () => {
       <Row>
         <Col>
           <Card>
-            
             <Card.Body>
               <Card.Text>
                 {myListLoading ? (
@@ -76,18 +78,16 @@ const UserPage = () => {
                     <thead>
                       <tr>
                         <th>Id</th>
-                        <th>User Id</th>
+                        <th>Date</th>
                       </tr>
                     </thead>
                     {orders.map((item) => (
                       <tbody key={item._id}>
                         <tr>
                           <td>
-                            <Link to={`/orders/${item._id}`}>
-                            {item._id}
-                            </Link>
-                            </td>
-                          <td>{item.user}</td>
+                            <Link to={`/orders/${item._id}`}>{item._id}</Link>
+                          </td>
+                          <td>{ moment(item.updatedAt).calendar()}</td>
                         </tr>
                       </tbody>
                     ))}
@@ -96,7 +96,7 @@ const UserPage = () => {
               </Card.Text>
             </Card.Body>
             <Card.Footer>
-              Collections : {orders ? orders.length : 0}
+              Amount of Collections : {orders ? orders.length : 0}
             </Card.Footer>
           </Card>
         </Col>

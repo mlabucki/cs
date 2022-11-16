@@ -28,6 +28,7 @@ export const createOrder = (order) => async(dispatch,getState) => {
       dispatch({ type: COLLECTION_CLEAR_ITEMS, payload: data });
       
       localStorage.removeItem("collectionItems")
+      
     } catch (error) {
       const message =  error.response && error.response.data.message
         ? error.response.data.message
@@ -80,7 +81,7 @@ export const getOrderDetails = (id) => async(dispatch,getState) => {
   }
 }
 
-  // order list
+  // user order list
   export const getListMyOrders = () => async(dispatch,getState) => {
     try {
       dispatch({ type: ORDER_LIST_MY_REQUEST });

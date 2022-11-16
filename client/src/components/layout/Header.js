@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
@@ -7,7 +9,20 @@ import {
   NavDropdown,
 } from "react-bootstrap/";
 
-const Header = ({userInfo, logoutHandler}) => {
+const Header = ({userInfo, logoutHandler,}) => {
+  let navigate = useNavigate();
+  const [keyword, setKeyword] = useState();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    
+    if (keyword.trim()) {
+      navigate(`/search/${keyword}`);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <Navbar expand="lg">
     <Container fluid>
@@ -50,14 +65,15 @@ const Header = ({userInfo, logoutHandler}) => {
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>
-        <Form className="d-flex">
+        <Form className="d-flex" onSubmit={submitHandler}>
           <Form.Control
             type="search"
             placeholder="Search"
             className="me-2"
             aria-label="Search"
+            onChange={(e)=> setKeyword(e.target.value)}
           />
-          <Button variant="outline-success">Search</Button>
+          <Button variant="submit">Search</Button>
         </Form>
       </Navbar.Collapse>
     </Container>

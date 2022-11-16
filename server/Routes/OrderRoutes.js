@@ -10,13 +10,13 @@ orderRouter.post(
   "/",
   protect,
   asyncHandler(async (req, res) => {
-    // const { orderItems, name, description, topic, tag } = req.body;
-    const { orderItems } = req.body;
+    
+    const { orderItems, } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error("No items");
-      return;
+      return
     } else {
       const order = new Order({
         orderItems,
@@ -38,7 +38,7 @@ orderRouter.get(
   })
 );
 
-//order details by id
+//get order details by id
 orderRouter.get(
   "/:id",
   protect,

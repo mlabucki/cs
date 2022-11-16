@@ -3,12 +3,15 @@ import { Col, Container, Row, Card, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 
-import { addToCollection,removeFromCollection } from "../Redux/Actions/CollectionActions";
+import {
+  addToCollection,
+  removeFromCollection,
+} from "../Redux/Actions/CollectionActions";
 
-const Collection = () => {
+const Collections = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const productId = id;
@@ -19,8 +22,9 @@ const Collection = () => {
   const { collectionItems } = collection;
 
   const removeFromCollectionHandle = (productId) => {
-    dispatch(removeFromCollection(productId))
+    dispatch(removeFromCollection(productId));
   };
+
 
 
   useEffect(() => {
@@ -30,10 +34,10 @@ const Collection = () => {
   }, [dispatch, productId, qty]);
 
   const checkOutHandler = (e) => {
-  e.preventDefault()
-  navigate(`/placeorder`)
-
-  }
+    e.preventDefault();
+    
+    navigate(`/collection-details`);
+  };
 
   return (
     <Container>
@@ -46,7 +50,7 @@ const Collection = () => {
                 <>
                   <h1>Your collection is empty</h1>
                   <Link to={`/products`}>
-                  <Button>Create new Collection</Button>
+                    <Button>Create new Collection</Button>
                   </Link>
                 </>
               ) : (
@@ -58,18 +62,13 @@ const Collection = () => {
                         <th>Product Name</th>
                         <th>Qty</th>
                         <th>Price</th>
-                        <th
-
-                        // dataFormat={imageFormatter}
-                        >
-                          Collection image
-                        </th>
+                        <th>Collection image</th>
                         <th>Edit</th>
                         <th>Remove</th>
                       </tr>
                     </thead>
                     {collectionItems.map((item) => (
-                      <tbody key={item.productId}>
+                      <tbody key={item.product}>
                         <tr>
                           <td>1</td>
                           <td>
@@ -82,7 +81,7 @@ const Collection = () => {
                                 dispatch(
                                   addToCollection(
                                     item.product,
-                                    Number ( e.target.value)
+                                    Number(e.target.value)
                                   )
                                 )
                               }
@@ -97,10 +96,14 @@ const Collection = () => {
                           <td>{item.productId}</td>
                           <td>{item.price}$</td>
                           <td>{item.image}</td>
-                          <td>Edit</td>
+                          <td>
+                            Edit
+                          </td>
                           <td>
                             <Button
-                              onClick={() => removeFromCollectionHandle(item.product)}
+                              onClick={() =>
+                                removeFromCollectionHandle(item.product)
+                              }
                             >
                               Remove
                             </Button>
@@ -113,8 +116,7 @@ const Collection = () => {
               )}
 
               <Card.Title>
-              
-               <Button onClick={checkOutHandler}>Create Collection</Button>
+                <Button onClick={checkOutHandler}>Create Collection</Button>
               </Card.Title>
             </Card.Body>
           </Card>
@@ -124,4 +126,4 @@ const Collection = () => {
   );
 };
 
-export default Collection;
+export default Collections;

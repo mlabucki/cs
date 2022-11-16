@@ -1,9 +1,13 @@
+
 import { Container } from "react-bootstrap/";
 import { useDispatch, useSelector } from "react-redux";
+
 import { logout } from "../../Redux/Actions/UserActions";
 import Header from "./Header";
 
 function Layout(props) {
+
+  
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -11,13 +15,18 @@ function Layout(props) {
 
   const logoutHandler = () => {
     dispatch(logout());
-    // console.log('logout');
   };
+
+
 
   return (
     <div>
       <header>
-        <Header userInfo={userInfo} logoutHandler={logoutHandler} />
+        <Header
+          userInfo={userInfo}
+          logoutHandler={logoutHandler}
+   
+        />
       </header>
 
       <main>

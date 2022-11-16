@@ -8,7 +8,7 @@ const SeedsData = require("./SeedDB.js");
 const productRoute = require("./Routes/ProductRoutes");
 const userRouter = require("./Routes/UserRoutes");
 const orderRouter = require("./Routes/OrderRoutes");
-const { errorHandler, notFound } = require("./Middleware/errrorMiddleware");
+const { errorHandler, notFound } = require("./Middleware/errorMiddleware");
 
 
 dotenv.config();
@@ -21,7 +21,7 @@ app.use(cors("*"));
 app.use("/api/seed", SeedsData)
 app.use("/api/products", productRoute);
 app.use("/api/users/", userRouter);
-app.use("/api/products/:id", productRoute);
+app.use("/api/products/", productRoute);
 app.use("/api/orders", orderRouter)
 
 

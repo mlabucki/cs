@@ -1,11 +1,14 @@
 import {
-
   COLLECTION_ADD_ITEM,
   COLLECTION_REMOVE_ITEM,
   COLLECTION_CLEAR_ITEMS,
+  COLLECTION_SAVE_DETAILS,
 } from "../Constants/CollectionConstants";
 
-export const collectionReducer = (state = { collectionItems: [] }, action) => {
+export const collectionReducer = (
+  state = { collectionItems: [], collectionDetails: {} },
+  action
+) => {
   switch (action.type) {
     case COLLECTION_ADD_ITEM:
       const item = action.payload;
@@ -34,15 +37,17 @@ export const collectionReducer = (state = { collectionItems: [] }, action) => {
           (i) => i.product !== action.payload
         ),
       };
-      //Add COLLECTION TAG
-      case COLLECTION_CLEAR_ITEMS:
-        return {
-          ...state,
-          collectionItems:[],
-        }
+    case COLLECTION_SAVE_DETAILS:
+      return {
+        collectionDetails: action.payload,
+      };
+
+    case COLLECTION_CLEAR_ITEMS:
+      return {
+        ...state,
+        collectionItems: [],
+      };
     default:
       return state;
   }
 };
-
-

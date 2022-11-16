@@ -1,71 +1,73 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
-const protect = require("../Middleware/AuthMiddleware.js");
-
 const Product = require("../Models/ProductModel.js");
+const protect = require("../Middleware/AuthMiddleware.js");
 
 const productRoute = express.Router();
 
 //all
-productRoute.get("/", asyncHandler(
-    async(req,res)=>{
-        const products = await Product.find({})
-        res.json(products)
+productRoute.get(
+  "/",
+
+  asyncHandler(async (req, res) => {
+    const keyword = req.query.keyword ? {
+      title:{
+        $regex:req.query.keyword,
+        $options: "i"
+      },
     }
-))
+    :{};
+    const products = await Product.find({...keyword});
+    res.json(products);
+  })
+);
 
 //single
-productRoute.get("/:id", asyncHandler(
-    async(req,res)=>{
-        const product = await Product.findById(req.params.id);
-        if(product){
-            res.json(product)    
-        }else{
-            res.status(404)
-            throw new Error("Product doesn not exist");
-        }
-        
+productRoute.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404);
+      throw new Error("Product doesn not exist");
     }
-))
-
+  })
+);
 
 //product review
-productRoute.post("/:id/review", asyncHandler(
-    protect,
-    async(req,res)=>{
-        const {comment, rating} = req.body
-        const product = await Product.findById(req.params.id);
-        if(product){
-            const reviewed = product.reviews.find(
-                (r)=> r.user.toString() === req.user._id.toString()
-            )
-            if(reviewed){
-                res.status(400)
-                throw new Error("Product already reviews");
-            }
-            const review = {
-                name: req.user.name,
-                rating:Number(rating),
-                comment,
-                user:req.user._id
-            };
+productRoute.post(
+  "/:id/review",
+  protect,
+  asyncHandler(async (req, res) => {
+    const { comment } = req.body;
+    const product = await Product.findById(req.params.id);
 
-            product.reviews.push(review)
-            product.numReviews = product.reviews.length
-            product.rating = 
-            product.reviews.reduce((acc,item)=> item.rating+ acc,0) / 
-            product.reviews.length;
+    if (product) {
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+      if (alreadyReviewed) {
+        res.status(400);
+        throw new Error("Product already reviewed");
+      }
+      const review = {
+        name: req.user.name,
+        comment,
+        user: req.user._id,
+      };
 
-            await product.save(
-                res.status(201).json({message:"Reviewed Added!"})
-            )
-        }else{
-            res.status(404)
-            throw new Error("Product doesn not exist");
-        }
-        
+      product.reviews.push(review);
+      product.numReviews = product.reviews.length;
+
+      await product.save();
+      res.status(201).json({ message: "Reviewed Added!" });
+    } else {
+      res.status(404);
+      throw new Error("Product does not exist");
     }
-))
-
+  })
+);
 
 module.exports = productRoute;

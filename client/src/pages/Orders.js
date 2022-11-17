@@ -14,14 +14,13 @@ const Orders = () => {
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
-  
 
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
   }, [dispatch, orderId]);
 
   const collectionHandler = () => {
-    navigate("/");
+    navigate("/userpage");
   };
 
   return (
@@ -35,7 +34,6 @@ const Orders = () => {
           <Row>
             <Col xl={6}>
               <Card>
-                
                 <Card.Body>
                   <Card.Title>
                     Collection of user:
@@ -53,7 +51,6 @@ const Orders = () => {
                             <th>Product Name</th>
                             <th>Qty</th>
                             <th>Price $</th>
-                            <th>Collection image</th>
                           </tr>
                         </thead>
                         {order.orderItems.map((item, index) => (
@@ -68,7 +65,6 @@ const Orders = () => {
 
                               <td>{item.qty}</td>
                               <td>{item.price}</td>
-                              <td>{item.image}</td>
                             </tr>
                           </tbody>
                         ))}
@@ -77,7 +73,9 @@ const Orders = () => {
                   )}
                 </Card.Body>
                 <Card.Footer>
-                  <Button onClick={collectionHandler}>Create New Collection</Button>
+                  <Button onClick={collectionHandler}>
+                    Create New Collection
+                  </Button>
                 </Card.Footer>
               </Card>
             </Col>

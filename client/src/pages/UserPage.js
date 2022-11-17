@@ -1,13 +1,14 @@
-import moment from "moment";
 import { useEffect, useState } from "react";
-import { Col, Container, Row, Card, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../Redux/Actions/UserActions";
+import moment from "moment";
+import { Col, Container, Row, Card, Button, Table } from "react-bootstrap";
+
 import Error from "../components/ui/Error";
 import Spiner from "../components/ui/Spiner";
 import UserProfileUpdate from "./UserProfileUpdate";
 import { getListMyOrders } from "../Redux/Actions/OrderActions";
+import { getUserDetails } from "../Redux/Actions/UserActions";
 
 const UserPage = () => {
   const [updateForm, setUpdateForm] = useState(false);
@@ -22,9 +23,6 @@ const UserPage = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const { error: detailsError, loading: detailsLoading } = userDetails;
 
-  // const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  // const {loading: updatedLoading } = userUpdateProfile;
-  
   const updateFormHandler = () => {
     setUpdateForm((prev) => setUpdateForm(!prev));
   };
@@ -42,9 +40,7 @@ const UserPage = () => {
             {updateForm === false ? (
               <Button onClick={updateFormHandler}>Update Profile</Button>
             ) : (
-              <Button onClick={updateFormHandler}>
-                Collapse a Update Form
-              </Button>
+              <Button onClick={updateFormHandler}>Update Form</Button>
             )}
             {detailsError && (
               <Error variant={"alert-danger"}>{detailsError}</Error>
@@ -77,7 +73,7 @@ const UserPage = () => {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Id</th>
+                        <th>Collection Name</th>
                         <th>Date</th>
                       </tr>
                     </thead>
@@ -85,9 +81,11 @@ const UserPage = () => {
                       <tbody key={item._id}>
                         <tr>
                           <td>
-                            <Link to={`/orders/${item._id}`}>{item._id}</Link>
+                            <Link to={`/orders/${item._id}`}>
+                              {item.orderDetails.collectionName}
+                            </Link>
                           </td>
-                          <td>{ moment(item.updatedAt).calendar()}</td>
+                          <td>{moment(item.updatedAt).calendar()}</td>
                         </tr>
                       </tbody>
                     ))}

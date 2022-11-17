@@ -6,8 +6,6 @@ import Error from "../components/ui/Error";
 import Spiner from "../components/ui/Spiner";
 
 const UserProfileUpdate = () => {
- 
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,17 +14,14 @@ const UserProfileUpdate = () => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
-
-  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { loading: updatedLoading } = userUpdateProfile;
+  const { loading: userLoading, error, user } = userDetails;
 
   useEffect(() => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
     }
-  }, [dispatch, user, loading]);
+  }, [dispatch, user, userLoading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -39,11 +34,9 @@ const UserProfileUpdate = () => {
   };
   return (
     <>
+      {userLoading && <Spiner />}
       {error && <Error variant={"alert-danger"}>{error}</Error>}
-      {loading && <Spiner />}
-      {updatedLoading && <Spiner />}
-
-      <h1>User name: {user.name}</h1>
+      {/* <h1>User name: {user.name}</h1> */}
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3">
           <Form.Label>Username </Form.Label>

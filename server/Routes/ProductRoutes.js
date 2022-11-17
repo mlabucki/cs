@@ -8,16 +8,16 @@ const productRoute = express.Router();
 //all
 productRoute.get(
   "/",
-
   asyncHandler(async (req, res) => {
-    const keyword = req.query.keyword ? {
-      title:{
-        $regex:req.query.keyword,
-        $options: "i"
-      },
-    }
-    :{};
-    const products = await Product.find({...keyword});
+    const filter = req.query.keyword
+      ? {
+          title: {
+            $regex: new RegExp(req.query.keyword),
+            $options: "i",
+          },
+        }
+      : {};
+    const products = await Product.find(filter);
     res.json(products);
   })
 );

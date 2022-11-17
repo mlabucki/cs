@@ -13,27 +13,25 @@ import {
 import { logout } from "./UserActions";
 
 //all products
-export const listProduct =
-  (keyword = " ") =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: PRODUCT_LIST_REQUEST });
-
-      const { data } = await axios.get(
-        `http://localhost:8000/api/products?keyword=${keyword}`
-      );
-
-      dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_LIST_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+export const listProduct = (keyword) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_LIST_REQUEST });
+    const { data } = await axios.get(
+      `http://localhost:8000/api/products${
+        keyword ? `?keyword=${keyword}` : ""
+      }`
+    );
+    dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 //single product
 export const listProductDetail = (_id) => async (dispatch) => {

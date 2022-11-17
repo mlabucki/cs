@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import { Link,useLocation,useNavigate } from "react-router-dom";
-import {login} from "../Redux/Actions/UserActions";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import Error from "../components/ui/Error";
 import Spiner from "../components/ui/Spiner";
+import { login } from "../Redux/Actions/UserActions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,24 +16,24 @@ const Login = () => {
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  const userLogin = useSelector((state)=>state.userLogin)
-  const {error, loading, userInfo} = userLogin;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { error, loading, userInfo } = userLogin;
 
-  useEffect(()=>{
-    if(userInfo){
-      navigate(redirect)
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
     }
-  },[userInfo, navigate, redirect]);
+  }, [userInfo, navigate, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email,password))
+    dispatch(login(email, password));
   };
 
   return (
     <Container fluid="sm">
       {error && <Error variant={"alert-danger"}>{error}</Error>}
-      {loading && <Spiner/>}
+      {loading && <Spiner />}
       <Card className="text-center" style={{ width: "18rem" }}>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3">
@@ -60,7 +61,9 @@ const Login = () => {
             <Button type="submit">Login</Button>
           </Card.Body>
 
-          <Link to={redirect ? `/register?redirect=${redirect}`: "/register"}>Create Account</Link>
+          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
+            Create Account
+          </Link>
         </Form>
       </Card>
     </Container>

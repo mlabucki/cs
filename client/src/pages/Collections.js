@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { Col, Container, Row, Card, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
-
+import { Col, Container, Row, Card, Table, Button } from "react-bootstrap";
 import {
   addToCollection,
   removeFromCollection,
@@ -25,8 +24,6 @@ const Collections = () => {
     dispatch(removeFromCollection(productId));
   };
 
-
-
   useEffect(() => {
     if (productId) {
       dispatch(addToCollection(productId, qty));
@@ -35,7 +32,7 @@ const Collections = () => {
 
   const checkOutHandler = (e) => {
     e.preventDefault();
-    
+
     navigate(`/collection-details`);
   };
 
@@ -62,15 +59,13 @@ const Collections = () => {
                         <th>Product Name</th>
                         <th>Qty</th>
                         <th>Price</th>
-                        <th>Collection image</th>
-                        <th>Edit</th>
                         <th>Remove</th>
                       </tr>
                     </thead>
-                    {collectionItems.map((item) => (
+                    {collectionItems.map((item, index) => (
                       <tbody key={item.product}>
                         <tr>
-                          <td>1</td>
+                          <td>{index + 1}</td>
                           <td>
                             <Link to={`/products/${productId}`}>Product 1</Link>
                           </td>
@@ -93,12 +88,8 @@ const Collections = () => {
                               ))}
                             </select>
                           </td>
-                          <td>{item.productId}</td>
+
                           <td>{item.price}$</td>
-                          <td>{item.image}</td>
-                          <td>
-                            Edit
-                          </td>
                           <td>
                             <Button
                               onClick={() =>

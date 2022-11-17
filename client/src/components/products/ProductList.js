@@ -6,8 +6,7 @@ import { listProduct } from "../../Redux/Actions/ProductActions";
 import Spiner from "../ui/Spiner";
 import Error from "../ui/Error";
 
-const ProductList = ({keyword}) => {
-  
+const ProductList = ({ keyword }) => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);

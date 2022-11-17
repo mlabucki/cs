@@ -39,7 +39,11 @@ export const collectionReducer = (
       };
     case COLLECTION_SAVE_DETAILS:
       return {
-        collectionDetails: action.payload,
+        ...state,
+        collectionDetails: {
+          ...state.collectionDetails,
+          ...action.payload,
+        },
       };
 
     case COLLECTION_CLEAR_ITEMS:

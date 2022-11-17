@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate,Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import Error from "../components/ui/Error";
 import Spiner from "../components/ui/Spiner";
 import { register } from "../Redux/Actions/UserActions";
-
 
 const Register = () => {
   const location = useLocation();
@@ -75,7 +74,9 @@ const Register = () => {
           <Card.Body>
             <Button type="submit">Register</Button>
           </Card.Body>
-          <Link to={redirect ? `/login?redirect=${redirect}`: "/login"}>Login</Link>
+          <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+            Login
+          </Link>
         </Form>
       </Card>
     </Container>

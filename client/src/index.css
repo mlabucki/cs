@@ -83,6 +83,11 @@ body {
 }
 
 .form-control {
+  /* color: var(--text-color) !important; */
+  background: var(--background-color);
+}
+
+.list-group-item {
   color: var(--text-color) !important;
   background: var(--background-color);
 }

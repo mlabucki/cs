@@ -43,7 +43,7 @@ const UserPage = () => {
               <Button onClick={updateFormHandler}>Update Form</Button>
             )}
             {detailsError && (
-              <Error variant={"alert-danger"}>{detailsError}</Error>
+              <Error variant="alert-danger">{detailsError}</Error>
             )}
             {detailsLoading && <Spiner />}
             {updateForm && <UserProfileUpdate />}

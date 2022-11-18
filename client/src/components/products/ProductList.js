@@ -25,13 +25,15 @@ const ProductList = ({ keyword }) => {
       ) : error ? (
         <Error variant="alert-danger">{error}</Error>
       ) : (
-        <>
-          {products.map((product) => {
-            return (
-              <Col className="col-6" key={product._id}>
-                <Card key={product._id} className="productlist">
-                  <Card.Img variant="top" src={product.image} />
-                  <Card.Body>
+        <Col className="col-6">
+          <Card className="productlist">
+            <Card.Title>Products</Card.Title>
+            {products.map((product) => {
+              return (
+                <>
+                  <Card.Body key={product._id}>
+                    <Card.Img variant="top" src={product.image} />
+
                     <Card.Title>{product.title}</Card.Title>
                     <Card.Text>{product.text}</Card.Text>
                     <Card.Text>{product.price} $</Card.Text>
@@ -39,11 +41,11 @@ const ProductList = ({ keyword }) => {
                       <Button variant="primary">`Check details`</Button>
                     </Link>
                   </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </>
+                </>
+              );
+            })}
+          </Card>
+        </Col>
       )}
     </Row>
   );

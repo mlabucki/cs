@@ -10,30 +10,21 @@ const userRouter = require("./Routes/UserRoutes");
 const orderRouter = require("./Routes/OrderRoutes");
 const { errorHandler, notFound } = require("./Middleware/errorMiddleware");
 
-
 dotenv.config();
 connectDB();
 const app = express();
 app.use(express.json());
 
 app.use(cors("*"));
-//API
-app.use("/api/seed", SeedsData)
+
+app.use("/api/seed", SeedsData);
 app.use("/api/products", productRoute);
 app.use("/api/users/", userRouter);
 app.use("/api/products/", productRoute);
-app.use("/api/orders", orderRouter)
+app.use("/api/orders", orderRouter);
 
-
-//Error
 app.use(notFound);
-app.use(errorHandler)
-
-
-
-
-
-
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

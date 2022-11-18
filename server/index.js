@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use(cors("*"));
 
+app.get("/", (req, res) => res.sendStatus(200));
 app.use("/api/seed", SeedsData);
 app.use("/api/products", productRoute);
 app.use("/api/users/", userRouter);

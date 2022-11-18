@@ -6,7 +6,9 @@ import {
 } from "../Constants/CollectionConstants";
 
 export const addToCollection = (_id, qty) => async (dispatch, getState) => {
-  const { data } = await axios.get(`http://localhost:8000/api/products/${_id}`);
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_API_URL}/api/products/${_id}`
+  );
 
   dispatch({
     type: COLLECTION_ADD_ITEM,

@@ -17,7 +17,7 @@ export const listProduct = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `http://localhost:8000/api/products${
+      `${process.env.REACT_APP_API_URL}/api/products${
         keyword ? `?keyword=${keyword}` : ""
       }`
     );
@@ -39,7 +39,7 @@ export const listProductDetail = (_id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:8000/api/products/${_id}`
+      `${process.env.REACT_APP_API_URL}/api/products/${_id}`
     );
 
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
@@ -72,7 +72,7 @@ export const createproductReview =
       };
 
       await axios.post(
-        `http://localhost:8000/api/products/${_id}/review`,
+        `${process.env.REACT_APP_API_URL}/api/products/${_id}/review`,
         review,
         config
       );
